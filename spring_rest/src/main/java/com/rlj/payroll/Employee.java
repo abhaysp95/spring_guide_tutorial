@@ -11,13 +11,32 @@ public class Employee {
 
 	private @Id @GeneratedValue Long id;
 	private String name;
+	private String firstName;
+	private String lastName;
 	private String role;
 
 	public Employee() { }
 
 	public Employee(String name, String role) {
-		this.name = name;
+		this.setName(name);
 		this.role = role;
+	}
+
+	public Employee(String firstName, String lastName, String role) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.role = role;
+	}
+
+	public String getName() {
+		return this.firstName + " " + this.lastName;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+		String[] nameParts = name.split(" ");
+		this.firstName = nameParts[0];
+		this.lastName = nameParts[1];
 	}
 
 	public Long getId() {
@@ -28,12 +47,20 @@ public class Employee {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return this.firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getLastName() {
+		return this.lastName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getRole() {
@@ -54,22 +81,24 @@ public class Employee {
 		}
 
 		Employee employee = (Employee) o;
-		return this.name.equals(employee.getName())
+		return Objects.equals(this.id, employee.getId())
+			&& this.firstName.equals(employee.getFirstName())
+			&& this.lastName.equals(employee.getLastName())
 			&& this.role.equals(employee.getRole());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.name, this.role);
+		return Objects.hash(this.firstName, this.lastName, this.role);
 	}
 
 	@Override
 	public String toString() {
 		return new StringBuilder("[")
 			.append(this.id).append(",")
-			.append(this.name).append(",")
-			.append(this.role).append(",")
-			.append("]").toString();
+			.append(this.firstName).append(",")
+			.append(this.lastName).append(",")
+			.append(this.role).append("]").toString();
 	}
 
 }
